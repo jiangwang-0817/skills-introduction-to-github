@@ -1,0 +1,481 @@
+                                                                                                        1.库存管理系统
+dict_product = {}
+
+while True:
+    print("\n欢迎使用库存管理系统!")
+    print("输入0，退出")
+    print("输入1，添加商品")
+    print("输入2，显示库存")
+    print("输入3，查找商品")
+    print("输入4，更新库存")
+    print("输入5，删除商品")
+    choice = input("请输入序号:")
+    if choice == "0":
+        print("再见！")
+        break
+    elif choice == "1":
+        print("\n欢迎使用:1,添加商品")
+        product_name = input("请输入商品名称:")
+        if product_name in dict_product:
+            print("商品已存在，将更新其信息")
+        try:
+            quantity = int(input("请输入商品数量:"))
+            price = float(input("请输入商品价格:"))
+            dict_product[product_name] = (quantity,price)
+            print("{}已成功添加".format(product_name))
+        except ValueError:
+            print("无效输入:请输入正确的数量和价格")
+    elif choice == "2":
+        if not dict_product:
+            print("\n当前没有库存")
+        else:
+            print("\n当前库存信息")
+            for product,(quantity,price) in dict_product.items():
+                total_price = quantity*price
+                print("商品名:",product,"数量:",quantity,"价格",price)
+                print("总价值:",total_price)
+    elif choice == "3":
+        print("\n欢迎使用:3,查找商品")
+        product_name = input("请输入你要查询的商品信息:")
+        if product_name in dict_product:
+            quantity,price = dict_product[product_name]
+            print("当前商品数量:",quantity,"当前商品价格:",price)
+        else:
+            print("查无此商品")
+    elif choice == "4":
+        product_name = input("请输入需要更新的商品名称:")
+        if product_name in dict_product:
+            new_quantity = int(input("请输入新商品数量:"))
+            dict_product[product_name]=(new_quantity,dict_product[product_name][1])
+            print("商品库存已更新")
+        else:
+            print("查无此商品")
+    elif choice == "5":
+        print("\n欢迎使用：5,删除商品")
+        product_name = input("请输入你要删除的商品名称:")
+        if product_name in dict_product:
+            del dict_product[product_name]
+            print("商品已删除")
+        else:
+            print("查无此商品")
+
+                                                                                            2.学生视频课学习数据列表
+import os
+file = open('超星平台学习数据.txt', 'r', encoding='utf-8')
+content = file.read()
+lines = content.strip().split('\n')
+student_ids = []
+for line in lines:
+    parts = line.split('\t')
+    student_ids.append(parts)
+students_info = student_ids[1:]
+# 批量写入文件
+for student in students_info:
+    name, student_id, flag3, flag4, flag5, flag1, flag2, flag6 = student
+
+    # 创建文件夹
+    folder_name = student_id
+    if not os.path.exists(folder_name):
+        os.mkdir(folder_name)
+
+    # 创建姓名文件并写入信息
+    file_name = f"{name}.txt"
+    file_path = os.path.join(folder_name, file_name)
+
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(f"姓名：{name}\n")
+        file.write(f"学号：{student_id}\n")
+        file.write(f"任务完成数：{flag3}\n")
+        file.write(f"视频观看时长：{flag4}\n")
+        file.write(f"评论：{flag5}\n")
+        file.write(f"章节学习次数：{flag1}\n")
+        file.write(f"详情：{flag2}\n")
+        file.write(f"学习报告：{flag6}\n")
+    print(f"文件 '{file_name}' 在目录 '{folder_name}' 中创建成功")
+
+                                                                                          3.不明所以的内容
+ import os
+a = os.getcwd
+print("当前文件目录:",a)
+
+file = open('123.txt','w',encoding='utf_8')
+file.write("Hello,Python!\n")
+file.write("Welcome to learning Python file operations.")
+file.close()
+
+import os
+directory_name = 'my_folder'
+os.mkdir(directory_name)
+
+if os.path.exists(directory_name):
+    print(f"目录'{directory_name}'存在")
+else:
+    print(f"目录'{directory_name}'不存在")
+
+if os.path.exists(directory_name):
+    os.rmdir(directory_name)
+    print(f"目录'{directory_name}'删除成功")
+else:
+    print(f"目录'{directory_name}'不存在或目录非空")
+
+file = open('./my_folder/sample.txt','w',encoding='utf_8')
+file.write("自定义内容")
+file.write("请确认该文件在my_folder文件夹内部")
+file.close()
+
+import os
+student_ids = []
+for student_id in student_ids:
+    if not os.path.exists(student_id):
+        os.mkdir(student_id)
+        print(f"文件夹'{student_id}'创建成功")
+    else:
+        print(f"文件夹'{student_id)'已存在")
+
+                                                                                  4.大一上期末考试内容
+import json #利用JSON文件来存储和读取学生信息#
+
+class StudentManagementSystem:
+    def __init__(self, filename):
+        self.filename = filename #用于存储JSON文件名#
+        self.students = [] #用于存储学生信息列表#
+        self.load_students() #加载学生数据#
+
+    def load_students(self):
+        """从文件加载学生信息"""
+        try: #可能出现的异常文件不存在或文件存在但格式无效#
+            with open(self.filename, 'r', encoding='utf-8') as file:
+                                #"r"只读模式，'TUF-8'保证以该编码读取#
+                self.students = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError): 
+                  #若为以上两种错误情况则输出空列表#
+            self.students = []
+
+    def save_students(self): #保存信息保存到此处#
+        """将学生信息保存到文件"""
+        with open(self.filename, 'w', encoding='utf-8') as file: #'w'写入模式若文件已存在则内容清空，若文件不存在则创建文件#
+            json.dump(self.students, file, ensure_ascii=False, indent=4) 
+        #保存的东西是什么#  #上行with open打开文件的对象# #保证输出字符可以包含非ASCII字符# #缩进级别#
+
+    def view_students(self): #浏览#
+        """浏览所有学生信息"""
+        if not self.students:
+            print("没有学生信息！")
+        else:
+            print("学号\t姓名\t班级\t年龄\t电话\tQQ\t地址")
+            for student in self.students:
+                print(f"{student['id']}\t{student['name']}\t{student['class']}\t{student['age']}\t" #\t是并列#
+                      f"{student['phone']}\t{student['qq']}\t{student['address']}") #f字符串格式化方法#
+
+    def query_student(self, student_id): #查询# #输入学生id匹配学生信息#
+        """根据学号查询学生信息"""
+        for student in self.students:
+            if student['id'] == student_id: #若id有对应学生学号则输出学生信息#
+                return student
+        return None #若遍历结束后未找到匹配的学号则输出none#
+
+    def add_student(self, student): #添加#
+        """添加学生信息"""
+        if self.query_student(student['id']): #查询学号是否存在对应学生id#
+            print("学号已存在，添加失败！")
+        else:
+            self.students.append(student)
+            print("学生信息添加成功！")
+
+    def update_student(self, student_id, updated_info): #更新#
+        """修改学生信息"""
+        for student in self.students: #遍历列表比较学生id与学号对应#
+            if student['id'] == student_id:
+                student.update(updated_info) #找到匹配的学号update方法更新学生信息#
+                print("学生信息修改成功！")
+                return
+        print("未找到该学号对应的学生信息！")
+
+    def delete_student(self, student_id): #删除#
+        """删除学生信息"""
+        for student in self.students:
+            if student['id'] == student_id:
+                self.students.remove(student) #若找到匹配的学号则移除该学生信息#
+                print("学生信息删除成功！")
+                return
+        print("未找到该学号对应的学生信息！")
+
+part1：学生信息管理系统
+# 主控程序
+def main():
+    system = StudentManagementSystem("students.json")
+
+    while True: #用了while True无限循环,只有用户输入6,才会退出循环#
+        print("\n学生信息管理系统")
+        print("1. 浏览学生信息")
+        print("2. 查询学生信息")
+        print("3. 添加学生信息")
+        print("4. 修改学生信息")
+        print("5. 删除学生信息")
+        print("6. 保存并退出")
+
+        choice = input("请选择操作(1-6): ")
+
+        if choice == '1':
+            system.view_students()
+        elif choice == '2':
+            student_id = input("请输入要查询的学生学号: ")
+            student = system.query_student(student_id)
+            if student:
+                print(student)
+            else:
+                print("未找到该学号的学生信息！")
+        elif choice == '3':
+            student = {
+                "id": input("学号: "),
+                "name": input("姓名: "),
+                "class": input("班级: "),
+                "age": input("年龄: "),
+                "phone": input("电话: "),
+                "qq": input("QQ: "),
+                "address": input("地址: ")
+            }
+            system.add_student(student)
+        elif choice == '4':
+            student_id = input("请输入要修改的学生学号: ")
+            updated_info = {}
+            print("请输入需要更新的信息，留空表示不修改")
+            updated_info['name'] = input("姓名: ") or None
+            updated_info['class'] = input("班级: ") or None
+            updated_info['age'] = input("年龄: ") or None
+            updated_info['phone'] = input("电话: ") or None
+            updated_info['qq'] = input("QQ: ") or None
+            updated_info['address'] = input("地址: ") or None
+            updated_info = {k: v for k, v in updated_info.items() if v is not None}
+                           #'k'字典的键，'v'字典的值，如果值不是none，则值为update_info#
+            system.update_student(student_id, updated_info) #传入已修改的信息更新信息#
+        elif choice == '5':
+            student_id = input("请输入要删除的学生学号: ")
+            system.delete_student(student_id)
+        elif choice == '6':
+            system.save_students()
+            print("学生信息已保存，程序退出。")
+            break
+        else:
+            print("无效的选择，请重新输入！")
+              
+if __name__ == "__main__":
+    main()
+
+part2：圆circle
+import math #导入math模块#
+
+class Circle:
+    def __init__(self, r): #初始化一个圆，r是半径#
+        """
+        构造方法，初始化圆的半径
+        :param r: 半径
+        """
+        self.r = r
+
+    def getArea(self): #计算圆面积pir**2#
+        """
+        计算圆的面积
+        :return: 面积
+        """
+        return math.pi * self.r ** 2 #**为平方#
+
+    def getPerimeter(self): #计算圆周长2pir#
+        """
+        计算圆的周长
+        :return: 周长
+        """
+        return 2 * math.pi * self.r
+
+class Cylinder:
+    def __init__(self, c, h):
+        """
+        构造方法，初始化圆柱体
+        :param c: Circle 对象，表示底面
+        :param h: 圆柱的高
+        """
+        self.c = c
+        self.h = h
+
+    def getArea(self):
+        """
+        计算圆柱的表面积
+        :return: 表面积
+        """
+        base_area = self.c.getArea() #底面#
+        side_area = self.c.getPerimeter() * self.h #侧面#
+        return 2 * base_area + side_area #2*底面积+侧面积#
+
+    def getVolume(self):
+        """
+        计算圆柱的体积
+        :return: 体积
+        """
+        return self.c.getArea() * self.h
+
+# 主控程序
+if __name__ == "__main__":
+    # 测试输入
+    radius = 4.0
+    height = 5.0
+
+    # 创建 Circle 对象
+    circle = Circle(radius)
+
+    # 打印圆的信息
+    print(f"半径为{radius:.1f}的圆的面积为{circle.getArea():.1f}") #.1f指定格式化浮点数保留一位小数#
+
+    # 创建 Cylinder 对象
+    cylinder = Cylinder(circle, height)
+
+    # 打印圆柱的信息
+    print(f"半径为{radius:.1f} 高为{height:.1f}的圆柱的面积为{cylinder.getArea():.1f}，体积为{cylinder.getVolume():.1f}")
+
+part3：掷骰子
+import random #随机函数random#
+
+def roll_dice():
+    """模拟掷骰子，返回1到6的随机点数"""
+    return random.randint(1, 6)
+
+def play_single_game(): #定义游戏名#
+    """模拟一盘游戏，A和B各掷5次骰子，返回两人的总点数"""
+    total_a = sum(roll_dice() for _ in range(5)) #循环5次#
+    total_b = sum(roll_dice() for _ in range(5)) #sum求和函数#
+    return total_a, total_b
+
+def determine_winner(total_a, total_b):
+    """根据点数判断获胜者"""
+    if total_a > total_b:
+        return 'A'
+    elif total_b > total_a:
+        return 'B'
+    else:
+        return 'Draw' #平局#
+
+def main(): #主代码#
+    # (1) 模拟一盘游戏
+    total_a, total_b = 0, 0 #初始总点数为0#
+    for _ in range(5):
+        round_a, round_b = play_single_game()
+        total_a += round_a #点数累加#
+        total_b += round_b
+
+    winner = determine_winner(total_a, total_b) #determine_winner判断比较a与b的大小#
+    print("--- 第一部分结果 ---")
+    print(f"A的总点数: {total_a}")
+    print(f"B的总点数: {total_b}")
+    print(f"获胜者: {winner if winner != 'Draw' else '平局'}") #!=不等于#
+
+    # (2) 模拟50轮游戏
+    win_a, win_b = 0, 0
+    for _ in range(50):
+        total_a, total_b = 0, 0 #每一轮中A和B初始点数为0#
+        for _ in range(5):
+            round_a, round_b = play_single_game()
+            total_a += round_a
+            total_b += round_b
+
+        winner = determine_winner(total_a, total_b) #返回字符串，每一场的胜负#
+        if winner == 'A': #50场中某一场获胜#
+            win_a += 1 #获胜场数+1#
+        elif winner == 'B':
+            win_b += 1
+
+    print("--- 第二部分结果 ---")
+    print(f"A赢得的场数: {win_a}")
+    print(f"B赢得的场数: {win_b}")
+    print(f"平局的场数: {50 - win_a - win_b}")
+
+if __name__ == "__main__": #检查当前脚本是否作为主程序#
+    main()
+
+part4：pandas模块导入给定数据集
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# 配置 matplotlib 显示中文
+plt.rcParams['font.sans-serif'] = ['SimHei'] #SimHei为常用黑体字#
+#用于设置全局参数   默认无衬线字体   避免在图表中显示中文时出现乱码或方框#
+plt.rcParams['axes.unicode_minus'] = False
+    #表示在图表中显示负号时会使用普通的减号#
+
+# 1. 读取数据
+filename = 'stolenvehicles.csv' #定义变量用于存储CSV文件的名称#
+# 添加 encoding 参数，尝试使用合适的编码格式
+try:
+    data = pd.read_csv(filename, encoding='utf-8') #尝试使用utf-8编码读取CSV,若错误则用gbk编码#
+except UnicodeDecodeError:
+    data = pd.read_csv(filename, encoding='gbk')
+
+# 2. 查看数据基本信息
+print("数据集基本信息:\n")
+print(data.info())
+print("\n数据集前5行:\n")
+print(data.head())
+
+# 检查列名
+print("\n数据集列名:\n")
+print(data.columns)  #直接显示数据集data中所有列的名称#
+
+# 3. 检查空缺值
+print("\n空缺值统计:\n")
+print(data.isnull().sum()) 
+#沿每列求和,True为1,Flase为0，计算每列空缺值的数量，直接显示data中每列空缺值的总数，以及哪些列有空缺值#
+
+# 处理空缺值（删除含有空缺值的行）
+data = data.dropna() #删除含有空缺值的行#
+print("\n处理空缺值后数据集是否还有空缺值:\n")
+print(data.isnull().sum()) 
+#重复操作3,确认是否已经处理完全部空缺值#
+
+# 4. 检查重复值
+print("\n重复值统计:\n")
+print(data.duplicated().sum())
+      #标记所有出现过多次的行#
+
+# 如果有重复值则删除
+if data.duplicated().sum() > 0: #检查数据集中重复行的数量是否大于0#
+    data = data.drop_duplicates() #若大于0，则删除所有重复行，并赋值替换原来的数据集#
+
+# 5. 按被偷车辆颜色分组并统计
+color_column = '被偷车辆颜色'  # 替换为实际列名
+location_column = '被偷位置'   # 替换为实际列名
+
+if color_column in data.columns:  #检查前者是否属于后者#
+    color_counts = data[color_column].value_counts() 
+          #选择文件中colour_column的列,统计每个为一值出现的次数#
+    print("\n被偷车辆颜色统计:\n")
+    print(color_counts)
+
+    # 绘制颜色分布柱状图
+    plt.figure(figsize=(10, 6)) #创建图形窗口,设定宽10,长6#
+    color_counts.sort_values(ascending=False).plot(kind='bar', color='skyblue')
+              #对colour_column排序    降序#          #柱状图          天蓝色#
+    plt.title('被偷车辆颜色分布') #设置图形标题#
+    plt.xlabel('颜色') #设置图像x轴标签#
+    plt.ylabel('被偷车辆数量') #设置图形y轴标签#
+    plt.xticks(rotation=45) #设置x轴标签旋转45度#
+    plt.tight_layout() #自动调整子图参数填充整个图形区域,布局更紧凑,避免重叠#
+    plt.show() #显示最终图形#
+else:
+    print(f"列 '{color_column}' 不存在，请检查数据集列名！")
+
+# 6. 按被偷位置分组并统计，选出前5名
+if location_column in data.columns: #检查location_column是否在这个列表中#
+    location_counts = data[location_column].value_counts().head(10) #选择了location_column列,统计每个唯一值出现的次数#
+                                      #用于返回前5个元素,这里用于获取出现次数最多的前5个位置#
+    print("\n最易被偷车的地区前5名:\n")
+    print(location_counts)
+
+    # 绘制地区分布柱状图
+    plt.figure(figsize=(10, 6))
+    location_counts.plot(kind='bar', color='lightcoral')
+    plt.title('最易被偷车的地区前5名')
+    plt.xlabel('地区')
+    plt.ylabel('被偷车辆数量')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+else:
+    print(f"列 '{location_column}' 不存在，请检查数据集列名！")
